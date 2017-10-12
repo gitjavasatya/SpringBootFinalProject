@@ -27,6 +27,7 @@ public class UomController {
 	
 	@GetMapping(value={"/","/regUom"})
 	public String showRegpage(){
+		System.out.println("HAi");
 		return "UomRegister";
 	}
 	@PostMapping("/insertUom")
