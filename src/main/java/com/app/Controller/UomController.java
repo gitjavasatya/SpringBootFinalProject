@@ -27,7 +27,7 @@ public class UomController {
 	
 	@GetMapping(value={"/","/regUom"})
 	public String showRegpage(){
-		
+		System.out.println("HAi");
 		return "UomRegister";
 	}
 	@PostMapping("/insertUom")
@@ -60,4 +60,6 @@ public class UomController {
 		service.update(uom);
 		return "redirect:getAllUom";
 	}
+	
+	
 }
