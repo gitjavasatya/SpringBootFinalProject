@@ -48,4 +48,10 @@ public class UomServiceImpl implements IUomService {
 		return uomlist;
 	}
 
+	@Override
+	public List<Uom> saveMultiple(List<Uom> uomList) {
+		List<Uom> uomObj=repo.save(uomList);
+		return uomObj;
+	}
+
 }

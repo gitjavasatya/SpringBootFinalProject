@@ -46,6 +46,14 @@ public class Uom implements Comparable<Uom> {
 		this.uomId = uomId;
 	}
 	
+	
+	public Uom(String uomType, String uomModel,String description,Date createdDate) {
+		super();
+		this.uomType = uomType;
+		this.uomModel = uomModel;
+		this.createdDate = createdDate;
+		this.description = description;
+	}
 	public long getUomId() {
 		return uomId;
 	}
