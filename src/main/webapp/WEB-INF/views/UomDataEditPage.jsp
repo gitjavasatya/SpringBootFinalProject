@@ -2,39 +2,43 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fm" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<style type="text/css">.error {color: red;}</style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Insert title here</title>
 </head>
 <body>
 
-	<form action="updateUom" method="post">
+	<fm:form action="updateUom" method="post" modelAttribute="uom">
 		<pre>
 		
-UOM ID		:<input type="text" name="uomId" value="${uom.uomId}"
-				readonly="readonly" /> 
-UOM Type	:<select name="uomType">
-			<option value="1">Select</option>
+UOM ID		:<fm:input type="text" path="uomId" value="${uom.uomId}" readonly="readonly" /> 
+UOM Type	:<fm:select path="uomType">
+			<fm:option value="1">Select</fm:option>
 			<c:forEach items="${uomTypes}" var="ob">
 			<c:choose>
 			<c:when test="${uom.uomType eq ob.key}">
-			<option value="${ob.key}" selected="selected">${ob.value}</option>
+			<fm:option value="${ob.key}" selected="selected">${ob.value}</fm:option>
 			</c:when>
 			<c:otherwise>
-			<option value="${ob.key}">${ob.value}</option>
+			<fm:option value="${ob.key}">${ob.value}</fm:option>
 			</c:otherwise>
 			</c:choose>
 			</c:forEach>
-			</select>
-UOM Model	:<input type="text" name="uomModel" value="${uom.uomModel}" />
-CreatedDate	:<input type="text" value="${uom.createdDate}" readonly="readonly" />
-Description	:<textarea name="description">${uom.description}</textarea>
-<input type="submit" value="UPDATE" />
+			</fm:select>
+			<fm:errors path="uomType" cssClass="error" />
+UOM Model	:<fm:input type="text" path="uomModel" value="${uom.uomModel}" />
+			 <fm:errors path="uomModel" cssClass="error" />
+CreatedDate	:<fm:input type="text" path="description" value="${uom.createdDate}" readonly="readonly" />
+Description	:<fm:textarea path="description">${uom.description}</fm:textarea>
+			 <fm:errors path="description" cssClass="" />
+			 <input type="submit" value="UPDATE" />
 
 </pre>
-	</form>
+	</fm:form>
 
 </body>
 </html>

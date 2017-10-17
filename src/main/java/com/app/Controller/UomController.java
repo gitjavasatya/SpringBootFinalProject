@@ -1,18 +1,20 @@
 package com.app.Controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.websocket.Session;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.app.model.Uom;
 import com.app.service.IUomService;
@@ -26,14 +28,24 @@ public class UomController {
 	private UomUtil uomUtil;
 	
 	@GetMapping(value={"/","/regUom"})
-	public String showRegpage(){
+	public String showRegpage(ModelMap map){
+		map.addAttribute("uom", new Uom());
 		return "UomRegister";
 	}
 	@PostMapping("/insertUom")
-	public String save(@ModelAttribute Uom uom,ModelMap map){
-		long uomId=service.save(uom);
-		map.addAttribute("Msg", uomId);
-		return "UomRegister";
+	public String save(@ModelAttribute @Valid Uom uom,BindingResult errors, ModelMap map){
+		
+		if(errors.hasErrors()){
+			
+			map.addAttribute("uom", uom);
+		}else{
+			
+			long uomId=service.save(uom);
+			map.addAttribute("Msg", uomId);
+			map.addAttribute("uom", new Uom());
+		}
+		
+	return "UomRegister";
 	}
 	@GetMapping("/getAllUom")
 	public String getAllUoms(ModelMap map){
@@ -55,8 +67,12 @@ public class UomController {
 		return "UomDataEditPage";
 	}
 	@PostMapping("/updateUom")
-	public String updateUom(@ModelAttribute Uom uom){
-		service.update(uom);
+	public String updateUom(@ModelAttribute @Valid Uom uom,BindingResult errors, ModelMap map){
+		if(errors.hasErrors()){
+			map.addAttribute("uom", uom);
+		}else{
+			service.update(uom);
+		}
 		return "redirect:getAllUom";
 	}
 	

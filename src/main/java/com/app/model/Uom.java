@@ -8,8 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="uom_tab")
@@ -21,9 +25,16 @@ public class Uom implements Comparable<Uom> {
 	private long uomId;
 	
 	@Column(name="u_type")
+/*	@NotNull(message="Uom Type Cannot be Null")
+	@Size(min=1,message="Please Choose any type")*/
+	@NotEmpty(message="Please Choose One Type")
 	private String uomType;
 	
 	@Column(name="u_model")
+/*	@NotNull(message="Uom Model Cannot be Null")
+	@Size(min=1,message="Please Enter One Model")
+	@NotEmpty(message="Please Enter One Model")*/
+	@Pattern(regexp = "[A-Z]{4,6}", message="Please Enter Modle(4-6 chars)")
 	private String uomModel;
 	
 	@Column(name="u_crtdDate")
@@ -35,6 +46,7 @@ public class Uom implements Comparable<Uom> {
 	private Date lastModifiedDate;
 	
 	@Column(name="u_desc")
+	@NotEmpty(message="Enter Any Description")
 	private String description;
 	
 

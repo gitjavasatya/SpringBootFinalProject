@@ -2,8 +2,11 @@ package com.app.provider;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,15 +22,25 @@ public class UomRestController {
 	private IUomService service;
 	
 	@PostMapping("/rest/saveUom")
-	public String saveUom(@RequestBody Uom uom){
-		System.out.println(uom);
-		long uomId=service.save(uom);
-		return"Uom data Saved with Id"+uomId;
+	public ResponseEntity<?> saveUom(@RequestBody @Valid Uom uom,BindingResult errors){
+		if(errors.hasErrors()){
+			return ResponseEntity.badRequest().body(errors.getAllErrors());
+		}else{
+			long uomId=service.save(uom);
+			return ResponseEntity.ok("Uom data Saved with Id"+uomId);
+		}
+		
 	}
 	@PostMapping("/rest/updateUom")
-	public String updateUom(@RequestBody Uom uom){
-		service.update(uom);
-		return "Uom Data Updated";
+	public ResponseEntity<?> updateUom(@RequestBody @Valid Uom uom,BindingResult errors){
+		if(errors.hasErrors()){
+			return ResponseEntity.badRequest().body(errors.getAllErrors());
+			}else{
+				service.update(uom);
+				return ResponseEntity.ok("Uom Data Updated");
+			}
+		
+		
 	}
 	@GetMapping("/rest/deleteUom/{uomId}")
 	public String deleteUom(@PathVariable Long uomId){
